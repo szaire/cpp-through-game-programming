@@ -5,6 +5,9 @@
 #include <cstdlib>
 #include <vector>
 
+// New additions
+#include <algorithm>
+
 using namespace std;
 
 int main()
@@ -18,9 +21,7 @@ int main()
     // Basic Variables
     vector<string> words = {"photo", "history", "shirt", "data", "book", "river", "philosophy", "potato", "winner", "music"};
     vector<char> usedLetters;
-    ushort guessesLeft = MAX_GUESS;
-
-    // Booleans
+    ushort guessesLeft = MAX_GUESS; // Descendent counting
     bool playerWin = false;
 
     // Random Numbers
@@ -50,11 +51,15 @@ int main()
         }
 
         cout << "\n\nSo far the word is:\n";
-        for (int i = 0; i < hiddenWord.size(); i++) {
-            cout << hiddenWord[i];
-        }
+        // Showing the hiddenWord:
+        cout << hiddenWord << "\n";
 
-        cout << "\n\nEnter your guess: ";
+        // Outdated:
+        // for (int i = 0; i < hiddenWord.size(); i++) {
+        //     cout << hiddenWord[i];
+        // }
+
+        cout << "\nEnter your guess: ";
         char guessLetter;
         cin >> guessLetter;
         usedLetters.push_back(guessLetter);
@@ -79,11 +84,8 @@ int main()
             cout << "You guessed incorrectly! There's still " << guessesLeft << " tries left.\n";
         }
         guessIndex.erase(guessIndex.begin(), guessIndex.end());
+        playerWin = hiddenWord == randomWord;
         cout << "\n===========================================\n";
-
-        if (hiddenWord == randomWord) {
-            playerWin = true;
-        }
     }
 
     if (playerWin) {
