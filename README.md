@@ -1,7 +1,7 @@
 # cpp-through-game-programming
 Repository made to keep the games made from the book "Beginning C++ Through Game Programming" by Michael Dawson
 
-## Progress:
+## Progress: (50%)
 - [✅] Chapter 1
 - [✅] Chapter 2
 - [✅] Chapter 3
