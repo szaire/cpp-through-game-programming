@@ -1,0 +1,37 @@
+# Ideation Phase
+
+The game is a tic-tac-toe game which the player is prompted with:
+    - a welcome message;
+    - a tutorial message;
+    - a threaten sentence;
+    - a input request
+
+The game will obey a loop until its finished;
+
++ Victory conddition: If the player makes a straight line with
+3 symbols  (X or O) before the AI, the player Wins
++ Defeat condition: ig the AI makes a stright line with symbols
+(X or O) before the player.
++ Draw condition: If neither the player nor the AI complete the
+3 symbols line
+
+# Pseudocode
+## Each line needs to be treated as a function call
+
+Display welcome message on screen
+Display game toturial on screen
+Display the game board on the screen
+Decides who goes first
+
+while nobody won and is not tie:
+    - if its player turn:
+        - get player move
+        - update board with player move
+    - Otherwise:
+        - calculate computer move
+        - update board with computer move
+    Display board
+    Switch turns
+Congratulate the winner or declare tie
+
+# AI Logic
