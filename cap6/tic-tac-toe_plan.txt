@@ -35,3 +35,4 @@ while nobody won and is not tie:
 Congratulate the winner or declare tie
 
 # AI Logic
+randomDecision: chooses a random place to fill
