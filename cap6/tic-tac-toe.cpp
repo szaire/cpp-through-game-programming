@@ -4,24 +4,29 @@
 #include <vector>
 #include <cstdlib>
 #include <ctime>
-//
 
 using namespace std;
 
 typedef unsigned short int ushort;
 
+// Constants
+const ushort MIN_CHAR_POS = (ushort) '0';
+const ushort MAX_CHAR_POS = (ushort) '8';
+
 // visuals
 void displayMessage1();
 void displayMessage2();
 void inputFirstMove(char& rfirstMove);
-void renderBoard(vector<char>& board);
+void renderBoard(const vector<char>& board);
 
 // moves
-void playerMove(vector<char>& board, vector<char>& visitedPos, ushort& position);
+void playerMove(vector<char>& board, vector<char>& visitedPos);
 void computer_randomDecision(vector<char>& board, vector<char>& visitedPos);
 
 // end game conditions
-bool drawCondition(vector<char>& board);
+bool drawCondition(const vector<char>& board);
+bool checkVictoryCondition(const vector<char>& board, char symbol);
+bool victoryCondition(const vector<char>& board);
 
 int main()
 {
@@ -35,13 +40,13 @@ int main()
     inputFirstMove(firstMove);
     system("clear");
 
-    while (!drawCondition(board))
+    while (!victoryCondition(board) && !drawCondition(board))
     {
-        ushort position;
         renderBoard(board);
+
         if (firstMove == 'y')
         {
-            playerMove(board, visitedPos, position);
+            playerMove(board, visitedPos);
         }
         computer_randomDecision(board, visitedPos);
 
@@ -72,7 +77,7 @@ void inputFirstMove(char& rfirstMove)
     } while (rfirstMove != 'y' && rfirstMove != 'n');
 }
 
-void renderBoard(vector<char>& board)
+void renderBoard(const vector<char>& board)
 {
     for (int i = 0; i < board.size(); i++) {
         cout << "\t" << board[i] << " ¦ " << board[++i] << " ¦ " << board[++i] << "\n";
@@ -85,33 +90,80 @@ void renderBoard(vector<char>& board)
 }
 
 // End game conditions
-// Draw
-bool drawCondition(vector<char>& board)
+// Victory (Either Player or Computer)
+bool victoryCondition(const vector<char>& board)
 {
-    ushort minCharPos = (ushort) '0';
-    ushort maxCharPos = minCharPos + board.size();
+    if (checkVictoryCondition(board, 'X'))
+    {
+        cout << "You won! Congratulations!\n\n";
+        return true;
+    }
 
+    if (checkVictoryCondition(board, 'O'))
+    {
+        cout << "The computer won! Nice try, baka ;)\n\n";
+        return true;
+    }
+
+    return false;
+}
+
+// Check Victory Condition
+bool checkVictoryCondition(const vector<char>& board, char symbol)
+{
+    // Vertical Line Segment
+    if (((board[0] == symbol) && (board[3] == symbol) && (board[6] == symbol)) ||
+    ((board[1] == symbol) && (board[4] == symbol) && (board[7] == symbol)) ||
+    ((board[2] == symbol) && (board[5] == symbol) && (board[8] == symbol)))
+    {
+        return true;
+    }
+
+    // Horizontal Line Segment
+    if (((board[0] == symbol) && (board[1] == symbol) && (board[2] == symbol)) ||
+    ((board[3] == symbol) && (board[4] == symbol) && (board[5] == symbol)) ||
+    ((board[6] == symbol) && (board[7] == symbol) && (board[8] == symbol)))
+    {
+        return true;
+    }
+    
+    // Diagonal Line Segment
+    if (((board[0] == symbol) && (board[4] == symbol) && (board[8] == symbol)) ||
+    ((board[2] == symbol) && (board[4] == symbol) && (board[6] == symbol)))
+    {
+        return true;
+    }
+
+    return false;
+}
+
+// Draw
+bool drawCondition(const vector<char>& board)
+{
     for (int i = 0; i < board.size(); i++) {
-        if ((ushort) board[i] >= minCharPos && (ushort) board[i] < maxCharPos)
+        if ((ushort) board[i] >= MIN_CHAR_POS && (ushort) board[i] <= MAX_CHAR_POS)
         {
             return false;
         }
     }
+
+    cout << "There's no winner! The game drawed 😂😂😂😂\nThe results are:\n\n";
+    renderBoard(board);
+    cout << "\n";
+
     return true;
 }
 
 // Moves
 // Player:
 // TODO: Look for the infinite game bug...
-void playerMove(vector<char>& board, vector<char>& visitedPos, ushort& position)
+void playerMove(vector<char>& board, vector<char>& visitedPos)
 {
+    ushort position;
     cout << "\nChoose the place to input the symbol: ";
     cin >> position;
 
-    ushort minCharPos = (ushort) '0';
-    ushort maxCharPos = minCharPos + board.size();
-
-    if ((ushort) board[position] >= minCharPos && (ushort) board[position] < maxCharPos)
+    if ((ushort) board[position] >= MIN_CHAR_POS && (ushort) board[position] <= MAX_CHAR_POS)
     {
         board[position] = 'X';
         visitedPos.push_back(position);
@@ -124,13 +176,11 @@ void computer_randomDecision(vector<char>& board, vector<char>& visitedPos)
 {
     srand(static_cast<unsigned int>(time(0)));
 
-    ushort minCharPos = (ushort) '0';
-    ushort maxCharPos = minCharPos + board.size();
-
     ushort randBoardPos;
+
     do {
         randBoardPos = rand() % board.size();
-    } while (std::count(visitedPos.begin(), visitedPos.end(), randBoardPos));
+    } while (count(visitedPos.begin(), visitedPos.end(), randBoardPos) && !drawCondition(board));
 
     board[randBoardPos] = 'O';
     visitedPos.push_back(randBoardPos);
