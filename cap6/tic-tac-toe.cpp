@@ -96,12 +96,18 @@ bool victoryCondition(const vector<char>& board)
     if (checkVictoryCondition(board, 'X'))
     {
         cout << "You won! Congratulations!\n\n";
+        renderBoard(board);
+        cout << "\n";
+
         return true;
     }
 
     if (checkVictoryCondition(board, 'O'))
     {
         cout << "The computer won! Nice try, baka ;)\n\n";
+        renderBoard(board);
+        cout << "\n";
+
         return true;
     }
 
@@ -162,6 +168,11 @@ void playerMove(vector<char>& board, vector<char>& visitedPos)
     ushort position;
     cout << "\nChoose the place to input the symbol: ";
     cin >> position;
+
+    while (position < 0 || position > 8) {
+        cout << "Wrong position! Choose a place between 0 and 8: ";
+        cin >> position;
+    } 
 
     if ((ushort) board[position] >= MIN_CHAR_POS && (ushort) board[position] <= MAX_CHAR_POS)
     {
