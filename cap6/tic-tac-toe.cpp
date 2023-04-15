@@ -169,8 +169,13 @@ void playerMove(vector<char>& board, vector<char>& visitedPos)
     cout << "\nChoose the place to input the symbol: ";
     cin >> position;
 
-    while (position < 0 || position > 8) {
-        cout << "Wrong position! Choose a place between 0 and 8: ";
+    if (count(board.begin(), board.end(), position))
+    {
+
+    }
+
+    while ((position < 0 || position > 8) || (count(visitedPos.begin(), visitedPos.end(), position))) {
+        cout << "Wrong position! Choose a free place between 0 and 8: ";
         cin >> position;
     } 
 
@@ -191,7 +196,7 @@ void computer_randomDecision(vector<char>& board, vector<char>& visitedPos)
 
     do {
         randBoardPos = rand() % board.size();
-    } while (count(visitedPos.begin(), visitedPos.end(), randBoardPos) && !drawCondition(board));
+    } while (count(visitedPos.begin(), visitedPos.end(), randBoardPos) && !victoryCondition(board));
 
     board[randBoardPos] = 'O';
     visitedPos.push_back(randBoardPos);
