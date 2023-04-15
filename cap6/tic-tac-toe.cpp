@@ -95,7 +95,7 @@ bool victoryCondition(const vector<char>& board)
 {
     if (checkVictoryCondition(board, 'X'))
     {
-        cout << "You won! Congratulations!\n\n";
+        cout << "You won the Tic-Tac-Toe game❕❗❕❗❕❗ Congratulations❗🥳🥳🥳🎉🎉🎉🎉🎉🎉 \n\n";
         renderBoard(board);
         cout << "\n";
 
@@ -104,7 +104,7 @@ bool victoryCondition(const vector<char>& board)
 
     if (checkVictoryCondition(board, 'O'))
     {
-        cout << "The computer won! Nice try, baka ;)\n\n";
+        cout << "The computer won! Nice try, baka 😉\n\n";
         renderBoard(board);
         cout << "\n";
 
