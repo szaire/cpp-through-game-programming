@@ -196,7 +196,7 @@ void computer_randomDecision(vector<char>& board, vector<char>& visitedPos)
 
     do {
         randBoardPos = rand() % board.size();
-    } while (count(visitedPos.begin(), visitedPos.end(), randBoardPos) && !victoryCondition(board));
+    } while (count(visitedPos.begin(), visitedPos.end(), randBoardPos) && !drawCondition(board));
 
     board[randBoardPos] = 'O';
     visitedPos.push_back(randBoardPos);
